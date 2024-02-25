@@ -1,8 +1,12 @@
 package com.example.mycrud.controller;
 
-import com.example.mycrud.model.User;
-import com.example.mycrud.service.Impl.UserService;
+import com.example.mycrud.model.dto.UserCreateDTO;
+import com.example.mycrud.model.dto.UserReadDTO;
+import com.example.mycrud.model.dto.UserUpdateDTO;
+import com.example.mycrud.service.IUserService;
+import com.example.mycrud.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,39 +14,39 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/user")
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(IUserService userService){
         this.userService = userService;
     }
 
     @GetMapping
-    public List<User> getUsers(){
+    public ResponseEntity<ApiResponse<List<UserReadDTO>>> getUsers(){
         return userService.getUsers();
     }
 
     // Endpoint para obtener un usuario por ID
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<UserReadDTO>> getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
     // Endpoint para crear un nuevo usuario
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<ApiResponse<UserReadDTO>> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        return userService.createUser(userCreateDTO);
     }
 
     // Endpoint para actualizar un usuario
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
-        return userService.updateUser(id, userDetails);
+    public ResponseEntity<ApiResponse<UserReadDTO>> updateUser(@PathVariable Integer id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        return userService.updateUser(id, userUpdateDTO);
     }
 
     // Endpoint para eliminar un usuario
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Integer id) {
+        return userService.deleteUser(id);
     }
 }
