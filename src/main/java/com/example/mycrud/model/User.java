@@ -1,7 +1,6 @@
-package com.example.mycrud.user;
+package com.example.mycrud.model;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Primary;
 
 @Entity
 @Table(name = "users")

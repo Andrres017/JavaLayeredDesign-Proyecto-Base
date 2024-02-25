@@ -1,5 +1,7 @@
-package com.example.mycrud.user;
+package com.example.mycrud.controller;
 
+import com.example.mycrud.model.User;
+import com.example.mycrud.service.Impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
