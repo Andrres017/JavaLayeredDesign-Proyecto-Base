@@ -5,10 +5,14 @@ import com.example.mycrud.model.dto.UserReadDTO;
 import com.example.mycrud.model.dto.UserUpdateDTO;
 import com.example.mycrud.service.IUserService;
 import com.example.mycrud.utils.ApiResponse;
+import com.example.mycrud.utils.ValidationExceptionHandler;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,7 +38,7 @@ public class UserController {
 
     // Endpoint para crear un nuevo usuario
     @PostMapping
-    public ResponseEntity<ApiResponse<UserReadDTO>> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity<ApiResponse<UserReadDTO>> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
         return userService.createUser(userCreateDTO);
     }
 
@@ -48,5 +52,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Integer id) {
         return userService.deleteUser(id);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<List<String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ValidationExceptionHandler.handleValidationExceptions(ex);
     }
 }

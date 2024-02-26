@@ -1,10 +1,13 @@
 package com.example.mycrud.model.dto;
 
+import jakarta.validation.constraints.*;
+
 public class UserCreateDTO {
+    @NotBlank
+    @Size(max = 255, min = 5)
     private String fullName;
+    @NotNull
     private Integer idNumber;
-    // Otros campos necesarios para crear un usuario
-    // Getters y setters
 
     public String getFullName() {
         return fullName;
